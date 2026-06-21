@@ -1,0 +1,153 @@
+{
+  "id": "omni-loom",
+  "title": "Omni-Loom",
+  "subtitle": "A Deterministic Generative Compiler for Cyber-Physical Creativity",
+  "thesis": "Omni-Loom transforms open-ended creative intent into reproducible, auditable fabrication pipelines—bridging generative algorithms and physical artifacts through a deterministic compiler model.",
+  "problem": {
+    "heading": "The Gap in AI Creativity",
+    "body": [
+      "Generative AI excels at producing infinite variations, but creative professionals lack deterministic pipelines that guarantee reproducibility, traceability, and physical manufacturability.",
+      "The path from intent → geometry → artifact is fragmented across incompatible tools, manual handoffs, and opaque model outputs."
+    ],
+    "highlights": [
+      "No deterministic pipeline from intent to artifact",
+      "Loss of auditability in generative workflows",
+      "Cyber-physical gap: digital designs fail fabrication constraints"
+    ]
+  },
+  "architecture": {
+    "heading": "System Architecture",
+    "body": [
+      "Omni-Loom is structured as a compiler: high-level creative intent is parsed, type-checked against fabrication constraints, and lowered into executable tool plans."
+    ],
+    "diagram": [
+      {
+        "id": "intent",
+        "label": "Creative Intent",
+        "description": "Structured intent, references, and constraints",
+        "connections": ["job"]
+      },
+      {
+        "id": "job",
+        "label": "Job Compiler",
+        "description": "Intent → typed job with validation and constraint solving",
+        "connections": ["toolplan"]
+      },
+      {
+        "id": "toolplan",
+        "label": "Tool Plan",
+        "description": "Deterministic sequence of operations and parameters",
+        "connections": ["geometry"]
+      },
+      {
+        "id": "geometry",
+        "label": "Geometry Kernel",
+        "description": "Procedural geometry generation with fabrication-aware primitives",
+        "connections": ["artifact"]
+      },
+      {
+        "id": "artifact",
+        "label": "Artifact Output",
+        "description": "G-code, SVG, mesh, or raster ready for fabrication",
+        "connections": []
+      }
+    ]
+  },
+  "pipeline": [
+    {
+      "id": "intent",
+      "name": "Intent Capture",
+      "description": "Structured input capturing creative direction, constraints, and material parameters.",
+      "input": "Natural language + reference images + material spec",
+      "output": "Typed intent graph"
+    },
+    {
+      "id": "job",
+      "name": "Job Compilation",
+      "description": "Validation, constraint propagation, and feasibility checks against fabrication domain.",
+      "input": "Typed intent graph",
+      "output": "Validated job manifest"
+    },
+    {
+      "id": "toolplan",
+      "name": "Tool Plan Generation",
+      "description": "Deterministic lowering of job manifest into tool-specific operations.",
+      "input": "Validated job manifest",
+      "output": "Tool plan with operation sequence"
+    },
+    {
+      "id": "geometry",
+      "name": "Geometry Synthesis",
+      "description": "Procedural geometry generation using fabrication-aware primitives and tolerances.",
+      "input": "Tool plan",
+      "output": "Fabrication-ready geometry"
+    },
+    {
+      "id": "artifact",
+      "name": "Artifact Emission",
+      "description": "Output formatting for target machines: laser, CNC, 3D print, or textile.",
+      "input": "Fabrication-ready geometry",
+      "output": "Machine code + manifest"
+    }
+  ],
+  "traceability": [
+    {
+      "id": "trace-001",
+      "jobId": "job-loom-001",
+      "toolPlan": "tp-laser-cut-v2",
+      "geometryHash": "sha256:9f3e...a12b",
+      "artifactRef": "omni-loom/output/cut-sheet-001.svg",
+      "timestamp": "2026-06-15T14:32:00Z",
+      "status": "verified"
+    },
+    {
+      "id": "trace-002",
+      "jobId": "job-loom-002",
+      "toolPlan": "tp-cnc-engrave-v1",
+      "geometryHash": "sha256:8d2c...b45e",
+      "artifactRef": "omni-loom/output/engrave-path-002.gcode",
+      "timestamp": "2026-06-18T09:15:00Z",
+      "status": "fabricated"
+    }
+  ],
+  "demo": {
+    "title": "Live Compiler Demo",
+    "description": "Input a creative intent and watch Omni-Loom compile a verified tool plan and preview geometry in real time.",
+    "cta": "Launch Compiler"
+  },
+  "skills": [
+    {
+      "domain": "Shader Programming & GPU Optimization",
+      "artifacts": ["WebGL geometry preview", "Real-time constraint visualization"]
+    },
+    {
+      "domain": "Design Systems & Component Architecture",
+      "artifacts": ["Job manifest schema", "Reusable pipeline UI components"]
+    },
+    {
+      "domain": "Generative Art & Procedural Design",
+      "artifacts": ["Fabrication-aware primitives", "Parametric pattern library"]
+    },
+    {
+      "domain": "Full-Stack Creative Engineering",
+      "artifacts": ["Next.js case study platform", "Typed content pipeline"]
+    }
+  ],
+  "roadmap": [
+    {
+      "phase": "Phase 1",
+      "objective": "Validate compiler pipeline for laser-cut and CNC domains",
+      "fundingPath": "Micro-grant + client pilot"
+    },
+    {
+      "phase": "Phase 2",
+      "objective": "Expand to textile and additive manufacturing",
+      "fundingPath": "Arts + technology grant"
+    },
+    {
+      "phase": "Phase 3",
+      "objective": "Open-source core geometry kernel and design-system UI",
+      "fundingPath": "Mozilla / NSF open-source grant"
+    }
+  ]
+}
