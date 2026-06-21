@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 96%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 96%;
+    --primary: 263 70% 65%;
+    --primary-foreground: 0 0% 4%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 55%;
+    --accent: 263 40% 20%;
+    --accent-foreground: 263 70% 85%;
+    --border: 0 0% 16%;
+    --radius: 0.5rem;
+  }
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+  ::selection { background: hsl(263 70% 65% / 0.3); }
+}
