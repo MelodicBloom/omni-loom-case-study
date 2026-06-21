@@ -1,7 +1,9 @@
 {
   "slug": "omni-loom",
+  "id": "omni-loom",
   "title": "Omni-Loom",
   "tagline": "A deterministic generative compiler for cyber-physical creativity.",
+  "subtitle": "A Deterministic Generative Compiler for Cyber-Physical Creativity",
   "thesis": "Creativity entering the physical world requires compiler-like systems rather than opaque improvisation. Omni-Loom transforms open-ended creative intent into reproducible, auditable fabrication pipelines \u2014 bridging generative algorithms and physical artifacts through deterministic lowering.",
   "problem": "Current AI systems excel at content generation but struggle with reproducibility, auditability, fabrication workflows, and deterministic outputs. The path from intent \u2192 geometry \u2192 artifact is fragmented across incompatible tools, manual handoffs, and opaque model outputs.",
   "architecture": [
@@ -10,15 +12,6 @@
     "Tool Plan Generation \u2014 deterministic lowering of job manifest into tool-specific operations",
     "Geometry Synthesis \u2014 procedural geometry generation using fabrication-aware primitives and tolerances",
     "Artifact Emission \u2014 output formatting for target machines: laser, CNC, 3D print, or textile"
-  ],
-  "skills": [
-    "AI Workflow Architecture",
-    "Design Engineering",
-    "Systems Thinking",
-    "Human\u2013AI Interaction",
-    "Information Architecture",
-    "Technical Writing",
-    "Product Strategy"
   ],
   "pipeline": [
     {
@@ -82,10 +75,14 @@
     "description": "Input a creative intent and watch Omni-Loom compile a verified tool plan and preview geometry in real time.",
     "cta": "Launch Compiler"
   },
-  "futureRoadmap": [
-    "Phase 1: Validate compiler pipeline for laser-cut and CNC domains via micro-grant + client pilot",
-    "Phase 2: Expand to textile and additive manufacturing via arts + technology grant",
-    "Phase 3: Open-source core geometry kernel and design-system UI via Mozilla / NSF grant"
+  "skills": [
+    "AI Workflow Architecture",
+    "Design Engineering",
+    "Systems Thinking",
+    "Human\u2013AI Interaction",
+    "Information Architecture",
+    "Technical Writing",
+    "Product Strategy"
   ],
   "roadmap": [
     {
@@ -103,5 +100,10 @@
       "objective": "Open-source core geometry kernel and design-system UI",
       "fundingPath": "Mozilla / NSF open-source grant"
     }
+  ],
+  "futureRoadmap": [
+    "Phase 1: Validate compiler pipeline for laser-cut and CNC domains via micro-grant + client pilot",
+    "Phase 2: Expand to textile and additive manufacturing via arts + technology grant",
+    "Phase 3: Open-source core geometry kernel and design-system UI via Mozilla / NSF grant"
   ]
 }

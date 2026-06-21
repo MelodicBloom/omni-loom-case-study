@@ -1,16 +1,35 @@
+// Unified CaseStudy schema — merges PR #1 rich types with PR #2 flat fields
+
 export interface CaseStudy {
+  // Identity
+  id?: string;
   slug: string;
   title: string;
   tagline: string;
+  subtitle?: string;
+
+  // Narrative
   thesis: string;
   problem: string;
+
+  // Architecture (flat string array for prose list)
   architecture: string[];
+
+  // Pipeline (structured stages)
   pipeline: PipelineStage[];
+
+  // Traceability audit entries
   traceability: TraceabilityEntry[];
+
+  // Demo CTA
   demo: DemoConfig;
+
+  // Skills (supports both plain strings and rich objects)
   skills: string[] | SkillEvidence[];
-  futureRoadmap: string[];
+
+  // Roadmap
   roadmap: RoadmapItem[];
+  futureRoadmap?: string[];
 }
 
 export interface PipelineStage {
