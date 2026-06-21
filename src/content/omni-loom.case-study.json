@@ -1,0 +1,107 @@
+{
+  "slug": "omni-loom",
+  "title": "Omni-Loom",
+  "tagline": "A deterministic generative compiler for cyber-physical creativity.",
+  "thesis": "Creativity entering the physical world requires compiler-like systems rather than opaque improvisation. Omni-Loom transforms open-ended creative intent into reproducible, auditable fabrication pipelines \u2014 bridging generative algorithms and physical artifacts through deterministic lowering.",
+  "problem": "Current AI systems excel at content generation but struggle with reproducibility, auditability, fabrication workflows, and deterministic outputs. The path from intent \u2192 geometry \u2192 artifact is fragmented across incompatible tools, manual handoffs, and opaque model outputs.",
+  "architecture": [
+    "Intent Capture \u2014 structured input capturing creative direction, constraints, and material parameters",
+    "Job Compilation \u2014 validation, constraint propagation, and feasibility checks against fabrication domain",
+    "Tool Plan Generation \u2014 deterministic lowering of job manifest into tool-specific operations",
+    "Geometry Synthesis \u2014 procedural geometry generation using fabrication-aware primitives and tolerances",
+    "Artifact Emission \u2014 output formatting for target machines: laser, CNC, 3D print, or textile"
+  ],
+  "skills": [
+    "AI Workflow Architecture",
+    "Design Engineering",
+    "Systems Thinking",
+    "Human\u2013AI Interaction",
+    "Information Architecture",
+    "Technical Writing",
+    "Product Strategy"
+  ],
+  "pipeline": [
+    {
+      "id": "intent",
+      "name": "Intent Capture",
+      "description": "Structured input capturing creative direction, constraints, and material parameters.",
+      "input": "Natural language + reference images + material spec",
+      "output": "Typed intent graph"
+    },
+    {
+      "id": "job",
+      "name": "Job Compilation",
+      "description": "Validation, constraint propagation, and feasibility checks against fabrication domain.",
+      "input": "Typed intent graph",
+      "output": "Validated job manifest"
+    },
+    {
+      "id": "toolplan",
+      "name": "Tool Plan Generation",
+      "description": "Deterministic lowering of job manifest into tool-specific operations.",
+      "input": "Validated job manifest",
+      "output": "Tool plan with operation sequence"
+    },
+    {
+      "id": "geometry",
+      "name": "Geometry Synthesis",
+      "description": "Procedural geometry generation using fabrication-aware primitives and tolerances.",
+      "input": "Tool plan",
+      "output": "Fabrication-ready geometry"
+    },
+    {
+      "id": "artifact",
+      "name": "Artifact Emission",
+      "description": "Output formatting for target machines: laser, CNC, 3D print, or textile.",
+      "input": "Fabrication-ready geometry",
+      "output": "Machine code + manifest"
+    }
+  ],
+  "traceability": [
+    {
+      "id": "trace-001",
+      "jobId": "job-loom-001",
+      "toolPlan": "tp-laser-cut-v2",
+      "geometryHash": "sha256:9f3e...a12b",
+      "artifactRef": "omni-loom/output/cut-sheet-001.svg",
+      "timestamp": "2026-06-15T14:32:00Z",
+      "status": "verified"
+    },
+    {
+      "id": "trace-002",
+      "jobId": "job-loom-002",
+      "toolPlan": "tp-cnc-engrave-v1",
+      "geometryHash": "sha256:8d2c...b45e",
+      "artifactRef": "omni-loom/output/engrave-path-002.gcode",
+      "timestamp": "2026-06-18T09:15:00Z",
+      "status": "fabricated"
+    }
+  ],
+  "demo": {
+    "title": "Live Compiler Demo",
+    "description": "Input a creative intent and watch Omni-Loom compile a verified tool plan and preview geometry in real time.",
+    "cta": "Launch Compiler"
+  },
+  "futureRoadmap": [
+    "Phase 1: Validate compiler pipeline for laser-cut and CNC domains via micro-grant + client pilot",
+    "Phase 2: Expand to textile and additive manufacturing via arts + technology grant",
+    "Phase 3: Open-source core geometry kernel and design-system UI via Mozilla / NSF grant"
+  ],
+  "roadmap": [
+    {
+      "phase": "Phase 1",
+      "objective": "Validate compiler pipeline for laser-cut and CNC domains",
+      "fundingPath": "Micro-grant + client pilot"
+    },
+    {
+      "phase": "Phase 2",
+      "objective": "Expand to textile and additive manufacturing",
+      "fundingPath": "Arts + technology grant"
+    },
+    {
+      "phase": "Phase 3",
+      "objective": "Open-source core geometry kernel and design-system UI",
+      "fundingPath": "Mozilla / NSF open-source grant"
+    }
+  ]
+}
