@@ -1,63 +1,38 @@
-import React from "react";
-import { CaseStudy } from "@/lib/caseStudySchema";
-import { FileCode2, Image, Layers, Package } from "lucide-react";
+'use client';
 
-interface Props {
-  entries: CaseStudy["traceability"];
-}
+import React from 'react';
 
-const formatIcon = (ref: string) => {
-  if (ref.endsWith(".svg")) return <Image className="h-5 w-5 text-foreground" />;
-  if (ref.endsWith(".gcode")) return <FileCode2 className="h-5 w-5 text-foreground" />;
-  if (ref.endsWith(".stl") || ref.endsWith(".obj")) return <Layers className="h-5 w-5 text-foreground" />;
-  return <Package className="h-5 w-5 text-foreground" />;
-};
+const OUTPUTS = [
+  { adapter: 'CNC', format: 'G-code preview', description: 'Toolpath simulation for subtractive milling. Closed contours validated. No machine dispatch.', color: '#22D3EE' },
+  { adapter: 'Laser', format: 'SVG vector preview', description: 'Vector output with cleansed paths and closed-contour validation. Kerf compensation not yet applied.', color: '#8B5CF6' },
+  { adapter: 'Embroidery', format: 'Stitch plan preview', description: 'Stitch density, fill direction, and thread routing simulated from CMYO color separations.', color: '#FBBF24' },
+  { adapter: 'CMYO Bridge', format: 'Color separation layers', description: 'Subtractive color model — Cyan, Magenta, Yellow, Overcoat — applied before adapter translation.', color: '#34D399' },
+];
 
-const formatLabel = (ref: string) => {
-  if (ref.endsWith(".svg")) return "Vector Cut Sheet";
-  if (ref.endsWith(".gcode")) return "CNC Toolpath";
-  if (ref.endsWith(".stl")) return "Mesh Model";
-  if (ref.endsWith(".obj")) return "Geometry Object";
-  return "Artifact";
-};
-
-export const FabricationOutputCards: React.FC<Props> = ({ entries }) => {
+export default function FabricationOutputCards() {
   return (
-    <section className="border-b border-border bg-background px-6 py-20 md:px-12">
-      <div className="mx-auto max-w-5xl">
-        <h3 className="mb-12 text-2xl font-semibold tracking-tight text-foreground">
-          Fabrication Outputs
-        </h3>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {entries.map((entry) => (
-            <div
-              key={entry.id}
-              className="flex flex-col rounded-lg border border-border bg-card p-5 shadow-sm transition-colors hover:bg-accent/40"
-            >
-              <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-md bg-muted">
-                  {formatIcon(entry.artifactRef)}
-                </div>
-                <div className="text-sm font-medium text-card-foreground">
-                  {formatLabel(entry.artifactRef)}
-                </div>
+    <section id="outputs" className="px-6 py-24 bg-[#0D111A]">
+      <div className="max-w-5xl mx-auto">
+        <p className="text-xs font-mono tracking-[0.2em] text-[#22D3EE] uppercase mb-3">Cyber-Physical Output</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-[#F8FAFC] mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Fabrication Adapters</h2>
+        <p className="text-[#94A3B8] mb-12 max-w-xl">Validated artifacts are translated into process-specific previews. All outputs are preview-only. Physical dispatch is intentionally locked.</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {OUTPUTS.map((output) => (
+            <div key={output.adapter} className="p-5 rounded border border-[#263244] bg-[#111827] flex flex-col gap-3 hover:border-[#263244]/80 transition-colors">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-bold" style={{ color: output.color }}>{output.adapter}</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#FB7185]/10 border border-[#FB7185]/30 text-[#FB7185]">LOCKED</span>
               </div>
-              <div className="mb-1 text-xs uppercase tracking-wider text-muted-foreground">
-                Artifact Ref
-              </div>
-              <div className="mb-4 truncate font-mono text-xs text-foreground">
-                {entry.artifactRef}
-              </div>
-              <div className="mb-1 text-xs uppercase tracking-wider text-muted-foreground">
-                Geometry Hash
-              </div>
-              <div className="truncate font-mono text-xs text-muted-foreground">
-                {entry.geometryHash}
-              </div>
+              <p className="text-xs font-mono text-[#94A3B8]">{output.format}</p>
+              <p className="text-xs text-[#94A3B8]/80 leading-relaxed flex-1">{output.description}</p>
+              <div className="h-px w-full" style={{ background: `linear-gradient(90deg, ${output.color}40, transparent)` }} />
             </div>
           ))}
+        </div>
+        <div className="mt-8 p-4 rounded border border-[#263244] bg-[#111827]/50">
+          <p className="text-xs font-mono text-[#94A3B8]"><span className="text-[#FBBF24]">Note:</span> CMYO fabrication dispatch is intentionally disabled. Calibration lock, manifest checksum, and QA gate requirements must all pass before dispatch could be enabled in a future production implementation.</p>
         </div>
       </div>
     </section>
   );
-};
+}

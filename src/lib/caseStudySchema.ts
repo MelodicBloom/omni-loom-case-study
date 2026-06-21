@@ -1,63 +1,41 @@
-export interface CaseStudy {
-  id: string;
-  title: string;
-  subtitle: string;
-  thesis: string;
-  problem: Section;
-  architecture: Section & { diagram: DiagramNode[] };
-  pipeline: PipelineStage[];
-  traceability: TraceabilityEntry[];
-  demo: DemoConfig;
-  skills: SkillEvidence[];
-  roadmap: RoadmapItem[];
+// Reusable schema for all portfolio case studies
+// Supports: Omni-Loom, Indigo Lattice, NacreOS, Design Language System, and future studies
+
+export interface ArchitectureBlock {
+  name: string;
+  type: string;
+  responsibility: string;
+  inputs: string[];
+  outputs: string[];
+  constraints: string[];
 }
 
-export interface Section {
-  heading: string;
-  body: string[];
-  highlights?: string[];
-}
-
-export interface DiagramNode {
-  id: string;
+export interface PipelineStep {
+  step: number;
   label: string;
   description: string;
-  connections: string[];
-}
-
-export interface PipelineStage {
-  id: string;
-  name: string;
-  description: string;
-  input: string;
-  output: string;
-}
-
-export interface TraceabilityEntry {
-  id: string;
-  jobId: string;
-  toolPlan: string;
-  geometryHash: string;
-  artifactRef: string;
-  timestamp: string;
-  status: "pending" | "compiled" | "fabricated" | "verified";
-}
-
-export interface DemoConfig {
-  title: string;
-  description: string;
-  cta: string;
 }
 
 export interface SkillEvidence {
-  domain: string;
-  artifacts: string[];
+  skill: string;
+  evidence: string;
 }
 
 export interface RoadmapItem {
   phase: string;
-  objective: string;
-  fundingPath?: string;
+  name: string;
+  status: 'complete' | 'in-progress' | 'planned' | 'future';
+  description: string;
 }
 
-export const caseStudySchemaVersion = "1.0.0";
+export interface CaseStudy {
+  slug: string;
+  title: string;
+  tagline: string;
+  thesis: string;
+  problem: string;
+  architecture: ArchitectureBlock[];
+  pipeline: PipelineStep[];
+  skills: SkillEvidence[];
+  roadmap: RoadmapItem[];
+}
