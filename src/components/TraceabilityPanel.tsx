@@ -1,72 +1,86 @@
-import React from "react";
-import { CaseStudy } from "@/lib/caseStudySchema";
-import { CheckCircle2, Clock, Hammer, ShieldCheck } from "lucide-react";
+'use client';
 
-interface Props {
-  entries: CaseStudy["traceability"];
-}
+import React, { useState } from 'react';
 
-const statusIcon = (status: CaseStudy["traceability"][number]["status"]) => {
-  switch (status) {
-    case "verified":
-      return <ShieldCheck className="h-4 w-4 text-emerald-500" />;
-    case "fabricated":
-      return <Hammer className="h-4 w-4 text-amber-500" />;
-    case "compiled":
-      return <CheckCircle2 className="h-4 w-4 text-blue-500" />;
-    default:
-      return <Clock className="h-4 w-4 text-slate-400" />;
-  }
+const GATES = [
+  { id: 'schema', label: 'Schema Gate', pass: true, detail: 'JobEnvelope and ToolPlan match required schemas.' },
+  { id: 'registry', label: 'Tool Registry Gate', pass: true, detail: 'All requested tools are allowlisted and deterministic.' },
+  { id: 'geometry', label: 'Geometry Gate', pass: true, detail: 'Vectors are closed, cleansed, and free from known invalid states.' },
+  { id: 'calibration', label: 'Calibration Gate', pass: false, detail: 'Calibration data is absent — device profile not yet supplied.' },
+  { id: 'fabrication', label: 'Fabrication Gate', pass: false, detail: 'Dispatch always locked in this demo. All prerequisites must pass in production.' },
+];
+
+const MANIFEST = {
+  artifactId: 'omni-demo-001',
+  checksum: 'sha256-demo-placeholder',
+  status: 'preview_only',
+  dispatch: 'disabled',
 };
 
-const statusLabel = (status: CaseStudy["traceability"][number]["status"]) => {
-  const map: Record<string, string> = {
-    pending: "Pending",
-    compiled: "Compiled",
-    fabricated: "Fabricated",
-    verified: "Verified",
-  };
-  return map[status] ?? status;
-};
+export default function TraceabilityPanel() {
+  const [expanded, setExpanded] = useState<string | null>(null);
 
-export const TraceabilityPanel: React.FC<Props> = ({ entries }) => {
   return (
-    <section className="border-b border-border bg-background px-6 py-20 md:px-12">
-      <div className="mx-auto max-w-5xl">
-        <h3 className="mb-12 text-2xl font-semibold tracking-tight text-foreground">
-          Audit Trail / Traceability
-        </h3>
-        <div className="overflow-hidden rounded-lg border border-border">
-          <div className="grid grid-cols-6 gap-4 border-b border-border bg-muted px-4 py-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            <div className="col-span-1">Status</div>
-            <div className="col-span-1">Job</div>
-            <div className="col-span-1">Tool Plan</div>
-            <div className="col-span-2">Geometry Hash</div>
-            <div className="col-span-1">Timestamp</div>
-          </div>
-          <div className="divide-y divide-border">
-            {entries.map((entry) => (
-              <div
-                key={entry.id}
-                className="grid grid-cols-6 items-center gap-4 px-4 py-4 text-sm transition-colors hover:bg-accent/30"
+    <section id="traceability" className="px-6 py-24 bg-[#080A0F]">
+      <div className="max-w-5xl mx-auto">
+        <p className="text-xs font-mono tracking-[0.2em] text-[#22D3EE] uppercase mb-3">Audit Trail</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-[#F8FAFC] mb-4"
+            style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          Traceability & QA Gates
+        </h2>
+        <p className="text-[#94A3B8] mb-12 max-w-xl">
+          Every output is traceable to intent, JobEnvelope, ToolPlan, gate results, and artifact manifest.
+          Fabrication remains locked until all prerequisites pass.
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Gates */}
+          <div className="space-y-3">
+            <p className="text-xs font-mono tracking-widest text-[#94A3B8] uppercase mb-4">QA Gates</p>
+            {GATES.map((gate) => (
+              <button
+                key={gate.id}
+                onClick={() => setExpanded(expanded === gate.id ? null : gate.id)}
+                className="w-full text-left p-4 rounded border border-[#263244] bg-[#111827] hover:border-[#263244]/80 transition-all"
               >
-                <div className="col-span-1 flex items-center gap-2">
-                  {statusIcon(entry.status)}
-                  <span className="font-medium text-foreground">{statusLabel(entry.status)}</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-[#F8FAFC]">{gate.label}</span>
+                  <span
+                    className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                      gate.pass
+                        ? 'bg-[#34D399]/10 border-[#34D399]/30 text-[#34D399]'
+                        : 'bg-[#FB7185]/10 border-[#FB7185]/30 text-[#FB7185]'
+                    }`}
+                  >
+                    {gate.pass ? 'PASS' : 'LOCKED'}
+                  </span>
                 </div>
-                <div className="col-span-1 font-mono text-foreground">{entry.jobId}</div>
-                <div className="col-span-1 text-muted-foreground">{entry.toolPlan}</div>
-                <div className="col-span-2 truncate font-mono text-xs text-muted-foreground">
-                  {entry.geometryHash}
-                </div>
-                <div className="col-span-1 text-muted-foreground">
-                  {new Date(entry.timestamp).toLocaleDateString()}
-                </div>
-              </div>
+                {expanded === gate.id && (
+                  <p className="mt-3 text-xs text-[#94A3B8] leading-relaxed">{gate.detail}</p>
+                )}
+              </button>
             ))}
+          </div>
+
+          {/* Manifest */}
+          <div className="p-6 rounded border border-[#263244] bg-[#111827] h-fit">
+            <p className="text-xs font-mono tracking-widest text-[#94A3B8] uppercase mb-4">Artifact Manifest</p>
+            <div className="space-y-3 font-mono text-sm">
+              {Object.entries(MANIFEST).map(([key, value]) => (
+                <div key={key} className="flex justify-between gap-4">
+                  <span className="text-[#94A3B8]">{key}</span>
+                  <span className="text-[#22D3EE] text-right break-all">{value}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 p-3 rounded border border-[#FB7185]/30 bg-[#FB7185]/5">
+              <p className="text-xs text-[#FB7185] font-mono">
+                ⚠ Preview only — physical fabrication dispatch is intentionally disabled in this demo.
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
-};
+}
