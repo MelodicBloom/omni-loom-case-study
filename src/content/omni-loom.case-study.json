@@ -81,11 +81,41 @@
     { "skill": "Generative Interface Research", "evidence": "Proposed compiler metaphor as alternative to black-box prompt-response loops." }
   ],
   "roadmap": [
-    { "phase": "Phase 1", "name": "Static Case Study", "status": "complete", "description": "Case study is readable, navigable, and publishable." },
-    { "phase": "Phase 2", "name": "Architecture Visualization", "status": "in-progress", "description": "Pipeline diagram and component cards render from structured data." },
-    { "phase": "Phase 3", "name": "Interactive Demo", "status": "planned", "description": "Simulated compiler demo: intent → JobEnvelope → ToolPlan → gates → manifest." },
-    { "phase": "Phase 4", "name": "Spec Pack", "status": "planned", "description": "Downloadable schemas, QA checklists, and implementation prompts." },
-    { "phase": "Phase 5", "name": "Funding Package", "status": "planned", "description": "Grant summary, pilot proposal, and partner outreach." },
-    { "phase": "Phase 6", "name": "Runtime Prototype", "status": "future", "description": "Real schema validation, deterministic tool registry, WASM worker off main thread." }
+    {
+      "phase": "Phase 1",
+      "name": "Static Case Study",
+      "status": "complete",
+      "description": "Case study is readable, navigable, and live on Vercel. Full content, schema, App Router page, and component system shipped."
+    },
+    {
+      "phase": "Phase 2",
+      "name": "Architecture Visualization",
+      "status": "complete",
+      "description": "Interactive SVG architecture diagram, hoverable pipeline diagram, architecture cards, and pipeline stepper all render from structured data."
+    },
+    {
+      "phase": "Phase 3",
+      "name": "Interactive Demo",
+      "status": "complete",
+      "description": "Simulated compiler demo live: intent input → JobEnvelope → animated ToolPlan execution → QA gates → artifact manifest. No real APIs called. Fabrication dispatch locked."
+    },
+    {
+      "phase": "Phase 4",
+      "name": "Spec Pack",
+      "status": "in-progress",
+      "description": "Downloadable schemas, QA gate checklists, ToolPlan contract definitions, and implementation prompts. Hosted at /spec-pack with inline JSON viewer and download links."
+    },
+    {
+      "phase": "Phase 5",
+      "name": "Funding Package",
+      "status": "planned",
+      "description": "Grant summary, pilot proposal narrative, partner outreach template, and licensing model overview. Hosted at /funding as a standalone pitch page."
+    },
+    {
+      "phase": "Phase 6",
+      "name": "Runtime Prototype",
+      "status": "future",
+      "description": "Real schema validation with Zod, deterministic tool registry with execution isolation, WASM geometry worker off main thread, and calibration profile management."
+    }
   ]
 }
