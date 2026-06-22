@@ -9,6 +9,8 @@ import SectionHeading from '@/components/case-study/SectionHeading';
 import NarrativeBlock from '@/components/case-study/NarrativeBlock';
 import ArchitectureCard from '@/components/case-study/ArchitectureCard';
 import PipelineStepCard from '@/components/case-study/PipelineStepCard';
+import ArchitectureDiagram from '@/components/ArchitectureDiagram';
+import DemoConsole from '@/components/demo/DemoConsole';
 
 const data = caseStudyData as CaseStudy;
 
@@ -42,7 +44,7 @@ export default function OmniLoomCaseStudy() {
         </div>
       </section>
 
-      {/* 3. Architecture */}
+      {/* 3. Architecture cards */}
       <section id="architecture" className="px-6 py-24 bg-[#080A0F]">
         <div className="max-w-5xl mx-auto">
           <SectionHeading
@@ -50,11 +52,19 @@ export default function OmniLoomCaseStudy() {
             title="The Compiler Stack"
             description="Seven tightly-specified layers convert human intent into fabrication-ready artifacts — without black-box geometry or unaudited dispatch."
           />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
             {data.architecture.map((block) => (
               <ArchitectureCard key={block.name} block={block} />
             ))}
           </div>
+
+          {/* Phase 2: Interactive architecture diagram */}
+          <SectionHeading
+            label="Architecture Map"
+            title="System Graph"
+            description="Hover any node to inspect its role in the compiler pipeline."
+          />
+          <ArchitectureDiagram />
         </div>
       </section>
 
@@ -87,8 +97,11 @@ export default function OmniLoomCaseStudy() {
       {/* 7. Fabrication outputs */}
       <FabricationOutputCards />
 
-      {/* 8. Portfolio skills */}
-      <section id="skills" className="px-6 py-24 bg-[#080A0F]">
+      {/* 8. Phase 3: Interactive demo console */}
+      <DemoConsole />
+
+      {/* 9. Portfolio skills */}
+      <section id="skills" className="px-6 py-24 bg-[#0D111A]">
         <div className="max-w-4xl mx-auto">
           <SectionHeading
             label="Portfolio Evidence"
@@ -106,8 +119,8 @@ export default function OmniLoomCaseStudy() {
         </div>
       </section>
 
-      {/* 9. Roadmap */}
-      <section id="roadmap" className="px-6 py-24 bg-[#0D111A]">
+      {/* 10. Roadmap */}
+      <section id="roadmap" className="px-6 py-24 bg-[#080A0F]">
         <div className="max-w-4xl mx-auto">
           <SectionHeading
             label="Build Roadmap"
@@ -130,11 +143,9 @@ export default function OmniLoomCaseStudy() {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-1">
                       <p className="text-sm font-bold text-[#F8FAFC]">{item.name}</p>
-                      <span
-                        className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
-                          statusColors[item.status] ?? statusColors.future
-                        }`}
-                      >
+                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                        statusColors[item.status] ?? statusColors.future
+                      }`}>
                         {item.status.toUpperCase().replace('-', ' ')}
                       </span>
                     </div>
@@ -147,12 +158,14 @@ export default function OmniLoomCaseStudy() {
         </div>
       </section>
 
-      {/* 10. CTA */}
-      <section className="px-6 py-24 bg-[#080A0F] border-t border-[#263244]">
+      {/* 11. CTA */}
+      <section className="px-6 py-24 bg-[#0D111A] border-t border-[#263244]">
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-xs font-mono tracking-[0.2em] text-[#22D3EE] uppercase mb-4">Omni-Loom</p>
-          <h2 className="text-3xl font-bold text-[#F8FAFC] mb-6"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <h2
+            className="text-3xl font-bold text-[#F8FAFC] mb-6"
+            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+          >
             Worth building because it shows how AI can be governed.
           </h2>
           <p className="text-[#94A3B8] mb-10 leading-relaxed">
@@ -162,14 +175,20 @@ export default function OmniLoomCaseStudy() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="#architecture"
+              href="#demo"
               className="px-6 py-3 rounded bg-[#22D3EE] text-[#080A0F] font-semibold text-sm hover:bg-[#22D3EE]/90 transition-colors"
+            >
+              Try the Demo
+            </a>
+            <a
+              href="#architecture"
+              className="px-6 py-3 rounded border border-[#263244] text-[#F8FAFC] font-semibold text-sm hover:border-[#22D3EE]/50 transition-colors"
             >
               Explore Architecture
             </a>
             <a
               href="#roadmap"
-              className="px-6 py-3 rounded border border-[#263244] text-[#F8FAFC] font-semibold text-sm hover:border-[#22D3EE]/50 transition-colors"
+              className="px-6 py-3 rounded border border-[#263244] text-[#94A3B8] font-semibold text-sm hover:border-[#8B5CF6]/50 transition-colors"
             >
               View Roadmap
             </a>
