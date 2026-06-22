@@ -57,8 +57,6 @@ export default function OmniLoomCaseStudy() {
               <ArchitectureCard key={block.name} block={block} />
             ))}
           </div>
-
-          {/* Phase 2: Interactive architecture diagram */}
           <SectionHeading
             label="Architecture Map"
             title="System Graph"
@@ -68,10 +66,10 @@ export default function OmniLoomCaseStudy() {
         </div>
       </section>
 
-      {/* 4. Pipeline diagram (interactive hover) */}
+      {/* 4. Pipeline diagram */}
       <PipelineDiagram steps={data.pipeline} />
 
-      {/* 5. Pipeline detail (vertical stepper) */}
+      {/* 5. Pipeline detail */}
       <section id="pipeline-detail" className="px-6 py-24 bg-[#0D111A]">
         <div className="max-w-2xl mx-auto">
           <SectionHeading
@@ -91,13 +89,13 @@ export default function OmniLoomCaseStudy() {
         </div>
       </section>
 
-      {/* 6. Traceability / QA gates */}
+      {/* 6. Traceability */}
       <TraceabilityPanel />
 
       {/* 7. Fabrication outputs */}
       <FabricationOutputCards />
 
-      {/* 8. Phase 3: Interactive demo console */}
+      {/* 8. Interactive demo */}
       <DemoConsole />
 
       {/* 9. Portfolio skills */}
@@ -155,6 +153,22 @@ export default function OmniLoomCaseStudy() {
               );
             })}
           </div>
+
+          {/* Spec Pack callout */}
+          <div className="mt-8 p-5 rounded border border-[#22D3EE]/20 bg-[#22D3EE]/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-bold text-[#F8FAFC] mb-1">Spec Pack — Phase 4</p>
+              <p className="text-sm text-[#94A3B8]">
+                Schemas, ToolPlan contracts, QA gate checklists, JobEnvelope spec, implementation prompts, and CMYO color model — all downloadable.
+              </p>
+            </div>
+            <a
+              href="/spec-pack"
+              className="shrink-0 px-5 py-2.5 rounded border border-[#22D3EE]/40 text-[#22D3EE] font-semibold text-sm hover:bg-[#22D3EE]/10 transition-colors whitespace-nowrap"
+            >
+              Open Spec Pack →
+            </a>
+          </div>
         </div>
       </section>
 
@@ -179,6 +193,12 @@ export default function OmniLoomCaseStudy() {
               className="px-6 py-3 rounded bg-[#22D3EE] text-[#080A0F] font-semibold text-sm hover:bg-[#22D3EE]/90 transition-colors"
             >
               Try the Demo
+            </a>
+            <a
+              href="/spec-pack"
+              className="px-6 py-3 rounded border border-[#22D3EE]/40 text-[#22D3EE] font-semibold text-sm hover:bg-[#22D3EE]/10 transition-colors"
+            >
+              Spec Pack
             </a>
             <a
               href="#architecture"
