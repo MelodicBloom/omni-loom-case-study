@@ -102,14 +102,14 @@
     {
       "phase": "Phase 4",
       "name": "Spec Pack",
-      "status": "in-progress",
-      "description": "Downloadable schemas, QA gate checklists, ToolPlan contract definitions, and implementation prompts. Hosted at /spec-pack with inline JSON viewer and download links."
+      "status": "complete",
+      "description": "Six-section downloadable spec pack live at /spec-pack: TypeScript schemas, ToolPlan contract, QA gate checklist, JobEnvelope spec, implementation prompts, and CMYO color model."
     },
     {
       "phase": "Phase 5",
       "name": "Funding Package",
-      "status": "planned",
-      "description": "Grant summary, pilot proposal narrative, partner outreach template, and licensing model overview. Hosted at /funding as a standalone pitch page."
+      "status": "in-progress",
+      "description": "Funding page live at /funding: grant summary, 12-week open-source pilot proposal, Apache 2.0 licensing model, partner outreach template, and adoption metrics framework."
     },
     {
       "phase": "Phase 6",
