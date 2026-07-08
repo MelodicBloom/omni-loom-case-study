@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   compileDemoIntent,
   DEMO_STATES,
   DEMO_STATE_LABELS,
-  type DemoState,
   type DemoResult,
+  type DemoState,
 } from '@/lib/demoCompiler';
 
 const DEFAULT_INTENT = 'Create a layered CMYO textile pattern with validated contours and embroidery-safe output.';
@@ -40,16 +40,16 @@ export default function DemoConsole() {
 
     const compiled = compileDemoIntent(intent);
 
-    DEMO_STATES.forEach((s, i) => {
-      const t = setTimeout(() => {
-        setState(s);
+    DEMO_STATES.forEach((nextState, i) => {
+      const timeout = setTimeout(() => {
+        setState(nextState);
         setVisibleStep(i + 1);
         if (i === DEMO_STATES.length - 1) {
           setResult(compiled);
           setRunning(false);
         }
       }, (i + 1) * 600);
-      timeoutsRef.current.push(t);
+      timeoutsRef.current.push(timeout);
     });
   }
 
@@ -62,21 +62,16 @@ export default function DemoConsole() {
     setIntent(DEFAULT_INTENT);
   }
 
-  const gateValue = (key: string) => {
-    if (!result) return null;
-    return result.gates[key as keyof typeof result.gates];
-  };
-
-  const gatePass = (key: string) => {
-    const v = gateValue(key);
-    if (typeof v === 'boolean') return v;
-    return false;
-  };
+  function gateStatus(key: (typeof GATE_LABELS)[number]['key']) {
+    if (!result) return 'pending';
+    const value = result.gates[key];
+    if (value === true) return 'pass';
+    return 'locked';
+  }
 
   return (
     <section id="demo" className="px-6 py-24 bg-[#080A0F]">
       <div className="max-w-5xl mx-auto">
-        {/* Header */}
         <p className="text-xs font-mono tracking-[0.2em] text-[#22D3EE] uppercase mb-3">Interactive Demo</p>
         <h2
           className="text-3xl md:text-4xl font-bold text-[#F8FAFC] mb-4"
@@ -94,16 +89,13 @@ export default function DemoConsole() {
           </span>
         </div>
 
-        {/* Three-panel layout */}
         <div className="grid lg:grid-cols-3 gap-4">
-
-          {/* LEFT: Intent input */}
           <div className="flex flex-col gap-4">
             <div className="p-5 rounded border border-[#263244] bg-[#111827] flex flex-col gap-4 h-full">
               <p className="text-xs font-mono tracking-widest text-[#94A3B8] uppercase">Intent Input</p>
               <textarea
                 value={intent}
-                onChange={(e) => setIntent(e.target.value)}
+                onChange={(event) => setIntent(event.target.value)}
                 disabled={running}
                 rows={5}
                 className="w-full bg-[#0D111A] border border-[#263244] rounded p-3 text-sm text-[#F8FAFC] font-mono resize-none focus:outline-none focus:border-[#22D3EE]/50 disabled:opacity-50 transition-colors"
@@ -126,12 +118,14 @@ export default function DemoConsole() {
                 </button>
               </div>
 
-              {/* State indicator */}
               <div className="pt-2 border-t border-[#263244]">
                 <p className="text-[10px] font-mono text-[#94A3B8] uppercase tracking-widest mb-2">Compiler State</p>
                 <p className={`text-sm font-mono transition-colors ${
-                  state === 'fabrication_locked' ? 'text-[#FB7185]' :
-                  state === 'idle' ? 'text-[#94A3B8]' : 'text-[#22D3EE]'
+                  state === 'fabrication_locked'
+                    ? 'text-[#FB7185]'
+                    : state === 'idle'
+                      ? 'text-[#94A3B8]'
+                      : 'text-[#22D3EE]'
                 }`}>
                   {DEMO_STATE_LABELS[state]}
                 </p>
@@ -139,52 +133,49 @@ export default function DemoConsole() {
             </div>
           </div>
 
-          {/* MIDDLE: Compiler stages */}
           <div className="p-5 rounded border border-[#263244] bg-[#111827] flex flex-col gap-3">
             <p className="text-xs font-mono tracking-widest text-[#94A3B8] uppercase mb-2">ToolPlan Execution</p>
 
-            {/* Pipeline stages */}
             {[
-              { step: 1, label: 'parse_intent', state: 'parsing_intent' },
-              { step: 2, label: 'validate_schema', state: 'job_envelope_created' },
-              { step: 3, label: 'cleanse_vectors', state: 'tool_plan_created' },
-              { step: 4, label: 'check_closed_contours', state: 'geometry_validated' },
-              { step: 5, label: 'compile_artifact_manifest', state: 'manifest_generated' },
-            ].map((s) => {
-              const done = visibleStep > s.step;
-              const active = visibleStep === s.step;
+              { step: 1, label: 'parse_intent' },
+              { step: 2, label: 'validate_schema' },
+              { step: 3, label: 'cleanse_vectors' },
+              { step: 4, label: 'check_closed_contours' },
+              { step: 5, label: 'compile_artifact_manifest' },
+            ].map((stage) => {
+              const done = visibleStep > stage.step;
+              const active = visibleStep === stage.step;
               return (
                 <div
-                  key={s.step}
+                  key={stage.step}
                   className={`flex items-center gap-3 p-3 rounded border transition-all duration-300 ${
-                    done ? 'border-[#34D399]/30 bg-[#34D399]/5' :
-                    active ? 'border-[#22D3EE]/50 bg-[#22D3EE]/5' :
-                    'border-[#263244] bg-transparent opacity-40'
+                    done
+                      ? 'border-[#34D399]/30 bg-[#34D399]/5'
+                      : active
+                        ? 'border-[#22D3EE]/50 bg-[#22D3EE]/5'
+                        : 'border-[#263244] bg-transparent opacity-40'
                   }`}
                 >
                   <span className={`w-5 h-5 rounded-full border flex items-center justify-center text-[10px] font-mono shrink-0 ${
-                    done ? 'border-[#34D399] text-[#34D399]' :
-                    active ? 'border-[#22D3EE] text-[#22D3EE]' :
-                    'border-[#263244] text-[#263244]'
+                    done
+                      ? 'border-[#34D399] text-[#34D399]'
+                      : active
+                        ? 'border-[#22D3EE] text-[#22D3EE]'
+                        : 'border-[#263244] text-[#263244]'
                   }`}>
-                    {done ? '✓' : s.step}
+                    {done ? '✓' : stage.step}
                   </span>
                   <span className={`text-xs font-mono ${
                     done ? 'text-[#34D399]' : active ? 'text-[#22D3EE]' : 'text-[#94A3B8]'
                   }`}>
-                    {s.label}
+                    {stage.label}
                   </span>
-                  {active && (
-                    <span className="ml-auto text-[10px] font-mono text-[#22D3EE] animate-pulse">running</span>
-                  )}
-                  {done && (
-                    <span className="ml-auto text-[10px] font-mono text-[#34D399]">complete</span>
-                  )}
+                  {active && <span className="ml-auto text-[10px] font-mono text-[#22D3EE] animate-pulse">running</span>}
+                  {done && <span className="ml-auto text-[10px] font-mono text-[#34D399]">complete</span>}
                 </div>
               );
             })}
 
-            {/* JobEnvelope preview */}
             {result && (
               <div className="mt-4 pt-4 border-t border-[#263244]">
                 <p className="text-[10px] font-mono text-[#94A3B8] uppercase tracking-widest mb-3">JobEnvelope</p>
@@ -206,23 +197,23 @@ export default function DemoConsole() {
             )}
           </div>
 
-          {/* RIGHT: Gates + Manifest */}
           <div className="flex flex-col gap-4">
-            {/* QA Gates */}
             <div className="p-5 rounded border border-[#263244] bg-[#111827]">
               <p className="text-xs font-mono tracking-widest text-[#94A3B8] uppercase mb-4">QA Gates</p>
               <div className="space-y-2">
                 {GATE_LABELS.map(({ key, label }) => {
-                  const pass = result ? gatePass(key) : null;
+                  const status = gateStatus(key);
                   return (
                     <div key={key} className="flex items-center justify-between">
                       <span className="text-xs text-[#94A3B8]">{label}</span>
                       <span className={`text-[10px] font-mono px-2 py-0.5 rounded border transition-all ${
-                        pass === null ? 'border-[#263244] text-[#263244]' :
-                        pass ? 'border-[#34D399]/30 bg-[#34D399]/10 text-[#34D399]' :
-                        'border-[#FB7185]/30 bg-[#FB7185]/10 text-[#FB7185]'
+                        status === 'pending'
+                          ? 'border-[#263244] text-[#263244]'
+                          : status === 'pass'
+                            ? 'border-[#34D399]/30 bg-[#34D399]/10 text-[#34D399]'
+                            : 'border-[#FB7185]/30 bg-[#FB7185]/10 text-[#FB7185]'
                       }`}>
-                        {pass === null ? '—' : pass ? 'PASS' : 'LOCKED'}
+                        {status === 'pending' ? '—' : status === 'pass' ? 'PASS' : 'LOCKED'}
                       </span>
                     </div>
                   );
@@ -230,15 +221,14 @@ export default function DemoConsole() {
               </div>
             </div>
 
-            {/* Artifact Manifest */}
             <div className="p-5 rounded border border-[#263244] bg-[#111827] flex-1">
               <p className="text-xs font-mono tracking-widest text-[#94A3B8] uppercase mb-4">Artifact Manifest</p>
               {result ? (
                 <div className="space-y-2 font-mono text-xs">
-                  {Object.entries(result.manifest).map(([k, v]) => (
-                    <div key={k} className="flex justify-between gap-2">
-                      <span className="text-[#94A3B8]">{k}</span>
-                      <span className="text-[#22D3EE] text-right break-all">{v}</span>
+                  {Object.entries(result.manifest).map(([key, value]) => (
+                    <div key={key} className="flex justify-between gap-2">
+                      <span className="text-[#94A3B8]">{key}</span>
+                      <span className="text-[#22D3EE] text-right break-all">{value}</span>
                     </div>
                   ))}
                 </div>
