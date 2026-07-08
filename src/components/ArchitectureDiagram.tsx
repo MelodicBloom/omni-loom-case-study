@@ -82,7 +82,6 @@ export function ArchitectureDiagram() {
   const [pulse, setPulse] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Auto-advance pulse through pipeline nodes
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setPulse((p) => (p + 1) % NODES.length);
@@ -111,7 +110,6 @@ export function ArchitectureDiagram() {
           deterministic compilation flow from creative intent to physical artifact.
         </p>
 
-        {/* SVG Diagram */}
         <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-lg">
           <svg
             viewBox={`0 0 ${SVG_W} ${SVG_H}`}
@@ -120,14 +118,12 @@ export function ArchitectureDiagram() {
             aria-label="Omni-Loom compiler architecture diagram"
           >
             <defs>
-              {/* Animated gradient for active edge */}
               <linearGradient id="edge-grad" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.2" />
                 <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.9" />
                 <stop offset="100%" stopColor="#34d399" stopOpacity="0.2" />
               </linearGradient>
 
-              {/* Arrowhead marker */}
               {NODES.map((node) => (
                 <marker
                   key={node.id}
@@ -142,7 +138,6 @@ export function ArchitectureDiagram() {
                 </marker>
               ))}
 
-              {/* Glow filter */}
               <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
                 <feGaussianBlur stdDeviation="4" result="blur" />
                 <feMerge>
@@ -151,7 +146,6 @@ export function ArchitectureDiagram() {
                 </feMerge>
               </filter>
 
-              {/* Node gradient fills */}
               {NODES.map((node) => (
                 <linearGradient
                   key={`grad-${node.id}`}
@@ -167,7 +161,6 @@ export function ArchitectureDiagram() {
               ))}
             </defs>
 
-            {/* Stage index labels */}
             {NODES.map((node, i) => (
               <text
                 key={`idx-${node.id}`}
@@ -183,14 +176,11 @@ export function ArchitectureDiagram() {
               </text>
             ))}
 
-            {/* Edges */}
             {EDGES.map((edge) => {
               const fromNode = getNodeById(edge.from);
               const toNode = getNodeById(edge.to);
-              const isActive =
-                activeNode === edge.from || activeNode === edge.to;
-              const midX =
-                fromNode.x + NODE_W + (toNode.x - fromNode.x - NODE_W) / 2;
+              const isActive = activeNode === edge.from || activeNode === edge.to;
+              const midX = fromNode.x + NODE_W + (toNode.x - fromNode.x - NODE_W) / 2;
               const midY = fromNode.y + NODE_H / 2 - 18;
 
               return (
@@ -222,7 +212,6 @@ export function ArchitectureDiagram() {
               );
             })}
 
-            {/* Nodes */}
             {NODES.map((node) => {
               const isActive = activeNode === node.id;
               return (
@@ -240,7 +229,6 @@ export function ArchitectureDiagram() {
                     }, 1200);
                   }}
                 >
-                  {/* Glow ring when active */}
                   {isActive && (
                     <rect
                       x={node.x - 4}
@@ -256,7 +244,6 @@ export function ArchitectureDiagram() {
                     />
                   )}
 
-                  {/* Node background */}
                   <rect
                     x={node.x}
                     y={node.y}
@@ -269,7 +256,6 @@ export function ArchitectureDiagram() {
                     style={{ transition: 'stroke 0.3s, stroke-width 0.3s' }}
                   />
 
-                  {/* Colored top accent bar */}
                   <rect
                     x={node.x + 10}
                     y={node.y + 8}
@@ -281,7 +267,6 @@ export function ArchitectureDiagram() {
                     style={{ transition: 'width 0.4s ease, opacity 0.3s' }}
                   />
 
-                  {/* Label */}
                   <text
                     x={node.x + NODE_W / 2}
                     y={node.y + 32}
@@ -295,7 +280,6 @@ export function ArchitectureDiagram() {
                     {node.label}
                   </text>
 
-                  {/* Sublabel */}
                   <text
                     x={node.x + NODE_W / 2}
                     y={node.y + 50}
@@ -311,7 +295,6 @@ export function ArchitectureDiagram() {
               );
             })}
 
-            {/* Bottom: active node detail */}
             {(() => {
               const node = getNodeById(activeNode);
               return (
@@ -353,7 +336,6 @@ export function ArchitectureDiagram() {
           </svg>
         </div>
 
-        {/* Legend */}
         <div className="mt-6 flex flex-wrap gap-4">
           {NODES.map((node) => (
             <button
@@ -373,3 +355,5 @@ export function ArchitectureDiagram() {
     </section>
   );
 }
+
+export default ArchitectureDiagram;
