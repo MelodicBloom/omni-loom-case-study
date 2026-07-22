@@ -1,0 +1,60 @@
+name: Publish Observational Evidence
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 14 * * 2'
+
+permissions:
+  contents: read
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build evidence envelope
+        id: envelope
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+          package = {}
+          if Path('package.json').exists():
+              package = json.loads(Path('package.json').read_text())
+          observations = [
+              {"id":"repo-revision","kind":"repository","source":"git","statement":f"Observed revision {os.environ['GITHUB_SHA']}","confidence":1.0,"tags":["provenance"]},
+              {"id":"declared-scripts","kind":"code","source":"package.json","statement":f"Declared scripts: {', '.join(sorted(package.get('scripts', {}).keys())) or 'none'}","confidence":1.0,"tags":["build-contract"]},
+              {"id":"site-purpose","kind":"human-note","source":"observer-policy","statement":"Review the case-study layout, narrative hierarchy, interaction clarity, conversion path, and performance tradeoffs without changing source.","confidence":0.9,"tags":["layout","narrative","conversion","interaction"]}
+          ]
+          envelope = {
+              "envelope_version":"1.0.0",
+              "repository":os.environ['GITHUB_REPOSITORY'],
+              "revision":os.environ['GITHUB_SHA'],
+              "captured_at":datetime.now(timezone.utc).isoformat(),
+              "decision_prompt":"Which layout, narrative, interaction, and conversion strategy best preserves Omni-Loom's technical credibility while improving comprehension and action?",
+              "observations":observations,
+              "artifacts":[],
+              "authority":{"read_only":True,"source_mutation":False,"deployment":False}
+          }
+          Path('observation-envelope.json').write_text(json.dumps(envelope))
+          PY
+      - name: Dispatch to decision reviewer
+        env:
+          REVIEWER_TOKEN: ${{ secrets.REVIEWER_DISPATCH_TOKEN }}
+        run: |
+          test -n "$REVIEWER_TOKEN" || { echo 'REVIEWER_DISPATCH_TOKEN is required'; exit 1; }
+          python - <<'PY' > payload.json
+          import json
+          envelope=json.load(open('observation-envelope.json'))
+          print(json.dumps({"event_type":"observation-ready","client_payload":{"repository":envelope["repository"],"envelope":envelope}}))
+          PY
+          curl --fail-with-body -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $REVIEWER_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/MelodicBloom/skills-taxonomy-pipeline/dispatches \
+            --data-binary @payload.json
