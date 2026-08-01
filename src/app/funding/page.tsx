@@ -73,7 +73,7 @@ export default function FundingPage() {
               <p className="text-sm text-[#A5F3FC] leading-relaxed italic">{PILOT_PROPOSAL.summary}</p>
             </div>
             <p className="text-xs font-mono text-[#94A3B8] uppercase tracking-widest mb-3">Core Question</p>
-            <p className="text-[#F8FAFC] font-medium mb-8 leading-relaxed">"{PILOT_PROPOSAL.question}"</p>
+            <p className="text-[#F8FAFC] font-medium mb-8 leading-relaxed">&ldquo;{PILOT_PROPOSAL.question}&rdquo;</p>
 
             <p className="text-xs font-mono text-[#94A3B8] uppercase tracking-widest mb-3">Deliverables</p>
             <div className="space-y-3 mb-10">
